@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 
-const API_URL = "https://smart-stat-backend.vercel.app/analyze";
+const API_URL = "https://backend-smart.vercel.app/analyze";
 
 const questions = [
   { question: "1/30 - What is the type of your study?", options: ["Experimental", "Observational", "Not applicable / Unsure"] },
