@@ -49,28 +49,38 @@ export default function UXHFQuestionnaire() {
   };
 
   const handleNext = async (option) => {
-    setAnswers((prevAnswers) => ({ ...prevAnswers, [questions[step].question]: option }));
+    setAnswers((prevAnswers) => {
+      const updatedAnswers = { ...prevAnswers, [questions[step].question]: option };
 
-    if (step < questions.length - 1) {
-      setStep(step + 1);
-    } else {
-      setLoading(true);
-      setShowResults(false);
-      try {
-        const response = await axios.post(API_URL, { answers }, { headers: { "Content-Type": "application/json" } });
-
-        console.log("API Response:", response.data);
-
-        setRecommendation(response.data.recommendation || "No recommendation found.");
-        setRCode(response.data.r_code || "No R code available.");
-        setShowResults(true);
-      } catch (error) {
-        console.error("API Error:", error);
-        setRecommendation("Failed to fetch AI-generated recommendation. Please try again.");
-        setShowResults(true);
-      } finally {
-        setLoading(false);
+      if (step < questions.length - 1) {
+        setStep(step + 1);
+      } else {
+        sendToBackend(updatedAnswers);
       }
+
+      return updatedAnswers;
+    });
+  };
+
+  const sendToBackend = async (finalAnswers) => {
+    setLoading(true);
+    setShowResults(false);
+    try {
+      const response = await axios.post(API_URL, { answers: finalAnswers }, {
+        headers: { "Content-Type": "application/json" }
+      });
+
+      console.log("API Response:", response.data);
+
+      setRecommendation(response.data.recommendation || "No recommendation found.");
+      setRCode(response.data.r_code || "No R code available.");
+      setShowResults(true);
+    } catch (error) {
+      console.error("API Error:", error);
+      setRecommendation("Failed to fetch AI-generated recommendation. Please try again.");
+      setShowResults(true);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -85,7 +95,7 @@ export default function UXHFQuestionnaire() {
       ) : (
         <div className="card">
           {loading ? (
-            <div className="loading-message">🔄 Please wait for the response...</div>
+            <div className="loading-message">Processing...</div>
           ) : showResults ? (
             <div className="result">
               <h2>AI-Generated Recommendation</h2>
