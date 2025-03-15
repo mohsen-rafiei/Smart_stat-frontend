@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 
-const API_URL = "https://fastapi-backend-pg6y.onrender.com/analyze";
+const API_URL = "https://backend-smart.vercel.app/analyze";
 
 const questions = [
   { question: "1/30 - What is the type of your study?", options: ["Experimental", "Observational", "Not applicable / Unsure"] },
@@ -36,74 +36,31 @@ const questions = [
   { question: "30/30 - Do you have strict ethical or regulatory standards?", options: ["Yes, very strict", "Moderate", "Flexible or none"] }
 ];
 
-export default function StatCompass() {
+export default function UXHFQuestionnaire() {
   const [step, setStep] = useState(-1);
-  const [answers, setAnswers] = useState({});
-  const [recommendation, setRecommendation] = useState(null);
-  const [rCode, setRCode] = useState(null);
-  const [loading, setLoading] = useState(false);
-  const [showResults, setShowResults] = useState(false);
 
-  const startQuiz = () => {
+  const handleStart = () => {
     setStep(0);
-  };
-
-  const handleNext = async (option) => {
-    setAnswers((prevAnswers) => ({ ...prevAnswers, [questions[step].question]: option }));
-
-    if (step < questions.length - 1) {
-      setStep(step + 1);
-    } else {
-      setLoading(true);
-      setShowResults(false);
-      try {
-        const response = await axios.post(API_URL, { answers }, { headers: { "Content-Type": "application/json" } });
-
-        console.log("API Response:", response.data);
-
-        setRecommendation(response.data.recommendation || "No recommendation found.");
-        setRCode(response.data.r_code || "No R code available.");
-        setShowResults(true);
-      } catch (error) {
-        console.error("API Error:", error);
-        setRecommendation("Failed to fetch AI-generated recommendation. Please try again.");
-        setShowResults(true);
-      } finally {
-        setLoading(false);
-      }
-    }
   };
 
   return (
     <div className="container">
       {step === -1 ? (
-        <div className="front-page">
+        <div className="start-page">
           <h1>Stat Compass v1</h1>
-          <p>You will answer 30 questions to determine the best statistical method for your data.</p>
-          <button className="start-button" onClick={startQuiz}>Start</button>
+          <p>You will answer 30 questions to determine the best statistical method for your analysis.</p>
+          <button onClick={handleStart} className="start-button">Start</button>
         </div>
       ) : (
-        <div className="card">
-          {loading ? (
-            <div className="loading-message">🔄 Please wait for the response...</div>
-          ) : showResults ? (
-            <div className="result">
-              <h2>AI-Generated Recommendation</h2>
-              <p className="response-box">{recommendation}</p>
-              <pre className="code-box"><code>{rCode}</code></pre>
-            </div>
-          ) : (
-            <div className="question-container">
-              <h2>{questions[step].question}</h2>
-              <div className="button-container">
-                {questions[step].options.map((option) => (
-                  <button key={option} className="option-button" onClick={() => handleNext(option)}>
-                    {option}
-                  </button>
-                ))}
-              </div>
-            </div>
-          )}
+        <div className="question-container">
+          <h2>{questions[step].question}</h2>
+          <div className="button-container">
+            {questions[step].options.map((option) => (
+              <button key={option} className="option-button" onClick={() => setStep(step + 1)}>
+                {option}
+              </button>
+            ))}
+          </div>
         </div>
       )}
     </div>
