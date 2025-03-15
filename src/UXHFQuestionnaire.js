@@ -36,14 +36,17 @@ const questions = [
   { question: "30/30 - Do you have strict ethical or regulatory standards?", options: ["Yes, very strict", "Moderate", "Flexible or none"] }
 ];
 
-export default function UXHFQuestionnaire() {
-  const [step, setStep] = useState(0);
+export default function StatCompass() {
+  const [step, setStep] = useState(-1);
   const [answers, setAnswers] = useState({});
   const [recommendation, setRecommendation] = useState(null);
   const [rCode, setRCode] = useState(null);
-  const [detailedExplanation, setDetailedExplanation] = useState(null);
   const [loading, setLoading] = useState(false);
   const [showResults, setShowResults] = useState(false);
+
+  const startQuiz = () => {
+    setStep(0);
+  };
 
   const handleNext = async (option) => {
     setAnswers((prevAnswers) => ({ ...prevAnswers, [questions[step].question]: option }));
@@ -60,7 +63,6 @@ export default function UXHFQuestionnaire() {
 
         setRecommendation(response.data.recommendation || "No recommendation found.");
         setRCode(response.data.r_code || "No R code available.");
-        setDetailedExplanation(response.data.explanation || "No explanation available.");
         setShowResults(true);
       } catch (error) {
         console.error("API Error:", error);
