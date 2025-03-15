@@ -77,7 +77,7 @@ export default function UXHFQuestionnaire() {
       setShowResults(true);
     } catch (error) {
       console.error("API Error:", error);
-      setRecommendation("Failed to fetch AI-generated recommendation. Please try again.");
+      setRecommendation("Failed to fetch recommendation. Please try again.");
       setShowResults(true);
     } finally {
       setLoading(false);
@@ -98,7 +98,7 @@ export default function UXHFQuestionnaire() {
             <div className="loading-message">Processing...</div>
           ) : showResults ? (
             <div className="result">
-              <h2>AI-Generated Recommendation</h2>
+              <h2>Recommendation</h2>
               <p className="response-box">{recommendation}</p>
               <pre className="code-box"><code>{rCode}</code></pre>
             </div>
