@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 
-const API_URL = "https://fastapi-backend-pg6y.onrender.com";
+const API_URL = "https://fastapi-backend-pg6y.onrender.com/analyze";
 
 const questions = [
   { question: "1/30 - What is the type of your study?", options: ["Experimental", "Observational", "Not applicable / Unsure"] },
