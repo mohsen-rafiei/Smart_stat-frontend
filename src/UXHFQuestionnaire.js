@@ -43,7 +43,7 @@ export default function UXHFQuestionnaire() {
     setStep(0);
   };
 
-  return (
+return (
     <div className="container">
       <div className="card">
         {loading ? (
