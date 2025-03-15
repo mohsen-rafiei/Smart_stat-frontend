@@ -46,21 +46,33 @@ export default function UXHFQuestionnaire() {
   return (
     <div className="container">
       {step === -1 ? (
-        <div className="start-page">
+        <div className="front-page">
           <h1>Stat Compass v1</h1>
-          <p>You will answer 30 questions to determine the best statistical method for your analysis.</p>
-          <button onClick={handleStart} className="start-button">Start</button>
+          <p>You will answer 30 questions to determine the best statistical method for your data.</p>
+          <button className="start-button" onClick={startQuiz}>Start</button>
         </div>
       ) : (
-        <div className="question-container">
-          <h2>{questions[step].question}</h2>
-          <div className="button-container">
-            {questions[step].options.map((option) => (
-              <button key={option} className="option-button" onClick={() => setStep(step + 1)}>
-                {option}
-              </button>
-            ))}
-          </div>
+        <div className="card">
+          {loading ? (
+            <div className="loading-message">🔄 Please wait for the response...</div>
+          ) : showResults ? (
+            <div className="result">
+              <h2>AI-Generated Recommendation</h2>
+              <p className="response-box">{recommendation}</p>
+              <pre className="code-box"><code>{rCode}</code></pre>
+            </div>
+          ) : (
+            <div className="question-container">
+              <h2>{questions[step].question}</h2>
+              <div className="button-container">
+                {questions[step].options.map((option) => (
+                  <button key={option} className="option-button" onClick={() => handleNext(option)}>
+                    {option}
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
         </div>
       )}
     </div>
