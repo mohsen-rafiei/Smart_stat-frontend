@@ -95,6 +95,7 @@ export default function UXHFQuestionnaire() {
           <h1>Stat Compass v1</h1>
           <p>You will answer 34 questions to determine the best statistical method for your data.</p>
           <p className="credits">Designed and developed by Mohsen Rafiei, Ph.D. and Bahareh Jozranjbar, Ph.D.</p>
+          <p className="credits">Moo.rafiei@gmail.com</p>
           <button className="start-button" onClick={startQuiz}>Start</button>
         </div>
       ) : (
